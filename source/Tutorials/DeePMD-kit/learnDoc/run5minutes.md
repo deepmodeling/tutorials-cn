@@ -14,23 +14,20 @@ DeepMD-kit 是一款实现深度势能(Deep Potential)的软件。虽然网上�
 ##1.4.1. 下载教程中提供的数据
 第一步，让我们下载和解压教程中提供给我们的数据:
 ```bash
-$ wget https://github.com/likefallwind/DPExample/raw/main/DeePMD-kit-FastLearn.tar
+$ wget https://dp-public.oss-cn-beijing.aliyuncs.com/community/DeePMD-kit-FastLearn.tar
 $ tar xvf DeePMD-kit-FastLearn.tar
 ```
-如果因为网络问题连不上github，你可以通过如下代码下载 :
-```bash
-$ wget https://gitee.com/likefallwind/dpexamples/raw/main/DeePMD-kit-FastLearn.tar
-$ tar xvf DeePMD-kit-FastLearn.tar
-```
- 然后我们可以进入到下载好的数据目录检查一下 :
- 为不同的目的设置了三个目录：
+
+然后我们可以进入到下载好的数据目录检查一下 :
+为不同的目的设置了三个目录：
   * 00.data：包含 VASP 结果 OUTCAR 的示例
   * 01.train：包含DeePMD-kit配置示例input.json
-  * data：包含 DeePMD-kit 训练/验证数据的示例  
-	$ cd DeePMD-kit-FastLearn
-	$ ls
-	00.data 01.train data
-
+  * data：包含 DeePMD-kit 训练/验证数据的示例
+```   
+$ cd DeePMD-kit-FastLearn
+$ ls
+00.data 01.train data
+``` 
 ##1.4.2. 数据准备
 现在让我们进入到00.data目录 :
 ```bash
