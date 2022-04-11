@@ -3,12 +3,20 @@
 
 DP 模型是使用 DeePMD-kit  (v2.0.3) 生成的。 使用 dpdata (v0.2.5) 工具将训练数据转换为 DeePMD-kit 的格式。 需要注意，dpdata 仅适用于 Python 3.5 及更高版本。 MD 模拟使用与 DeePMD-kit 自带的 LAMMPS（29 Sep 2021）进行。 dpdata 和 DeePMD-kit 安装和执行的详细信息可以在[DeepModeling 官方 GitHub 站点](https://github.com/deepmodeling) 中找到。 OVITO 用于 MD 轨迹的可视化。
 
-本教程所需的文件可在 [此处](https://github.com/likefallwind/DPExample/raw/main/CH4.zip) 获得。 本教程的文件夹结构是这样的：
+下载并解压本教程所需的文件。 
+```bash
+$ wget https://dp-public.oss-cn-beijing.aliyuncs.com/community/CH4.tar
+$ tar xvf CH4.tar
+```
+本教程的文件夹结构是这样的：
 ```bash
 $ ls
 00.data 01.train 02.lmp
 ```
- 00.data 文件夹包含训练数据，文件夹 01.train 包含使用 DeePMD-kit 训练模型的示例脚本，文件夹 02.lmp 包含用于分子动力学模拟的 LAMMPS 示例脚本。
+有3个文件夹
+1. 00.data 文件夹包含训练数据，
+2. 01.train 包含使用 DeePMD-kit 训练模型的示例脚本，
+3. 02.lmp 包含用于分子动力学模拟的 LAMMPS 示例脚本。
 
 ## 准备数据
 DeePMD-kit的训练数据包含原子类型、模拟盒子、原子坐标、原子受力、系统能量和维里。 具有这些信息的分子系统的快照称为一帧。 一个System包含有许多具有相同原子数量和原子类型的帧。 例如，分子动力学轨迹可以转换为一个System，每个时间步长对应于系统中的一帧。
