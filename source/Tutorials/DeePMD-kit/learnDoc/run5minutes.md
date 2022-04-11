@@ -11,7 +11,7 @@ DeepMD-kit 是一款实现深度势能(Deep Potential)的软件。虽然网上�
 2. ***训练*** : 使用前一步准备好的数据通过DeepMD-kit来训练一个深度势能模型(Deep Potential Model)
 3. ***冻结/压缩模型*** :最后我们需要做的就是冻结/压缩一个训练过程中输出的重启动文件来生成模型。相信你已经迫不及待想要上手试试啦！让我们开始吧！
 
-##1.4.1. 下载教程中提供的数据
+## 下载数据
 第一步，让我们下载和解压教程中提供给我们的数据:
 ```bash
 $ wget https://dp-public.oss-cn-beijing.aliyuncs.com/community/DeePMD-kit-FastLearn.tar
@@ -28,7 +28,7 @@ $ cd DeePMD-kit-FastLearn
 $ ls
 00.data 01.train data
 ``` 
-##1.4.2. 数据准备
+## 数据准备
 现在让我们进入到00.data目录 :
 ```bash
 $ cd 00.data
@@ -52,7 +52,7 @@ $ cd ..
 $ ls
 00.data 01.train data
 ```
-##1.4.3. 训练
+## 训练
 开始DeepMD-kit训练需要准备一个输入脚本，大家是不是还有没从被INCAR脚本支配的恐惧中走出来？别怕，配置DeepMD-kit比配置VASP简单多了。我们已经为你准备好了`input.json`，你可以在"01.train"目录当中找到它
 ```bash
 $ cd 01.train
