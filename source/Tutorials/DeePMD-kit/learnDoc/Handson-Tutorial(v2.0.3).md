@@ -57,6 +57,12 @@ print('# the validation data contains %d frames' % len(data_validation))
 ```bash
 $ ls training_data
 set.000 type.raw type_map.raw
+```
+1. set.000：是一个目录，包含压缩格式的数据（numpy压缩数组）。
+2. type.raw：是一个文件，包含原子的类型（以整数表示）。
+3. type_map.raw：是一个文件，包含原子的类型名称。
+
+```bash
 $ cat training_data/type.raw 
 0 0 0 0 1
 ```
@@ -194,7 +200,24 @@ $ tail -n 2 lcurve.out
 999000      1.24e-01       1.12e-01         5.93e-04         8.15e-04         1.22e-01         1.10e-01      3.7e-08
 1000000     1.31e-01       1.04e-01         3.52e-04         7.74e-04         1.29e-01         1.02e-01      3.5e-08
 ```
-第 4、5 和 6、7 卷分别介绍了能量和力量训练和测试错误。 证明经过 140,000 步训练，能量测试误差小于 1 meV，力测试误差在 120 meV/Å左右。还观察到，力测试误差系统地（稍微）大于训练误差，这意味着对相当小的数据集有轻微的过度拟合。
+第 4、5 和 6、7 卷分别介绍了能量和力量训练和测试错误。 证明经过 1000,000 步训练，能量测试误差小于 1 meV，力测试误差在 120 meV/Å左右。还观察到，力测试误差系统地（稍微）大于训练误差，这意味着对相当小的数据集有轻微的过度拟合。
+
+可以通过简单的Python脚本对该文件进行可视化
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = np.genfromtxt("lcurve.out", names=True)
+for name in data.dtype.names[1:-1]:
+    plt.plot(data['step'], data[name], label=name)
+plt.legend()
+plt.xlabel('Step')
+plt.ylabel('Loss')
+plt.xscale('symlog')
+plt.yscale('log')
+plt.grid()
+plt.show()
+```
 
 当训练过程异常停止时，我们可以从提供的检查点重新开始训练，只需运行
 ```bash
@@ -234,7 +257,7 @@ DEEPMD INFO    stage 2: freeze the model
 DEEPMD INFO    Restoring parameters from model-compression/model.ckpt
 DEEPMD INFO    840 ops in the final graph
 ```
-将输出一个名为 graph-compress.pb 的模型文件。
+将输出一个名为graph-compress.pb 的模型文件。
 
 ### 模型测试
 我们可以通过运行如下命令检查训练模型的质量
