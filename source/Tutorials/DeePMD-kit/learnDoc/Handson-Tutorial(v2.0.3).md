@@ -3,12 +3,20 @@
 
 DP 模型是使用 DeePMD-kit  (v2.0.3) 生成的。 使用 dpdata (v0.2.5) 工具将训练数据转换为 DeePMD-kit 的格式。 需要注意，dpdata 仅适用于 Python 3.5 及更高版本。 MD 模拟使用与 DeePMD-kit 自带的 LAMMPS（29 Sep 2021）进行。 dpdata 和 DeePMD-kit 安装和执行的详细信息可以在[DeepModeling 官方 GitHub 站点](https://github.com/deepmodeling) 中找到。 OVITO 用于 MD 轨迹的可视化。
 
-本教程所需的文件可在 [此处](https://github.com/likefallwind/DPExample/raw/main/CH4.zip) 获得。 本教程的文件夹结构是这样的：
+下载并解压本教程所需的文件。 
+```bash
+$ wget https://dp-public.oss-cn-beijing.aliyuncs.com/community/CH4.tar
+$ tar xvf CH4.tar
+```
+本教程的文件夹结构是这样的：
 ```bash
 $ ls
 00.data 01.train 02.lmp
 ```
- 00.data 文件夹包含训练数据，文件夹 01.train 包含使用 DeePMD-kit 训练模型的示例脚本，文件夹 02.lmp 包含用于分子动力学模拟的 LAMMPS 示例脚本。
+有3个文件夹
+1. 00.data 文件夹包含训练数据，
+2. 01.train 包含使用 DeePMD-kit 训练模型的示例脚本，
+3. 02.lmp 包含用于分子动力学模拟的 LAMMPS 示例脚本。
 
 ## 准备数据
 DeePMD-kit的训练数据包含原子类型、模拟盒子、原子坐标、原子受力、系统能量和维里。 具有这些信息的分子系统的快照称为一帧。 一个System包含有许多具有相同原子数量和原子类型的帧。 例如，分子动力学轨迹可以转换为一个System，每个时间步长对应于系统中的一帧。
@@ -49,6 +57,12 @@ print('# the validation data contains %d frames' % len(data_validation))
 ```bash
 $ ls training_data
 set.000 type.raw type_map.raw
+```
+1. set.000：是一个目录，包含压缩格式的数据（numpy压缩数组）。
+2. type.raw：是一个文件，包含原子的类型（以整数表示）。
+3. type_map.raw：是一个文件，包含原子的类型名称。
+
+```bash
 $ cat training_data/type.raw 
 0 0 0 0 1
 ```
@@ -186,7 +200,24 @@ $ tail -n 2 lcurve.out
 999000      1.24e-01       1.12e-01         5.93e-04         8.15e-04         1.22e-01         1.10e-01      3.7e-08
 1000000     1.31e-01       1.04e-01         3.52e-04         7.74e-04         1.29e-01         1.02e-01      3.5e-08
 ```
-第 4、5 和 6、7 卷分别介绍了能量和力量训练和测试错误。 证明经过 140,000 步训练，能量测试误差小于 1 meV，力测试误差在 120 meV/Å左右。还观察到，力测试误差系统地（稍微）大于训练误差，这意味着对相当小的数据集有轻微的过度拟合。
+第 4、5 和 6、7 卷分别介绍了能量和力量训练和测试错误。 证明经过 1000,000 步训练，能量测试误差小于 1 meV，力测试误差在 120 meV/Å左右。还观察到，力测试误差系统地（稍微）大于训练误差，这意味着对相当小的数据集有轻微的过度拟合。
+
+可以通过简单的Python脚本对该文件进行可视化
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = np.genfromtxt("lcurve.out", names=True)
+for name in data.dtype.names[1:-1]:
+    plt.plot(data['step'], data[name], label=name)
+plt.legend()
+plt.xlabel('Step')
+plt.ylabel('Loss')
+plt.xscale('symlog')
+plt.yscale('log')
+plt.grid()
+plt.show()
+```
 
 当训练过程异常停止时，我们可以从提供的检查点重新开始训练，只需运行
 ```bash
@@ -226,7 +257,7 @@ DEEPMD INFO    stage 2: freeze the model
 DEEPMD INFO    Restoring parameters from model-compression/model.ckpt
 DEEPMD INFO    840 ops in the final graph
 ```
-将输出一个名为 graph-compress.pb 的模型文件。
+将输出一个名为graph-compress.pb 的模型文件。
 
 ### 模型测试
 我们可以通过运行如下命令检查训练模型的质量
