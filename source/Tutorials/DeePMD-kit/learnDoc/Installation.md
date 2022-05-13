@@ -1,6 +1,6 @@
 # 简易安装
 
-DeePMD-kit有很多简单的的安装方式，你可以按需选择。
+DeePMD-kit有很多简单的安装方式，你可以按需选择。
 
 完成安装流程后，文件中会出现两个已经编译好的程序：DeePMD-kit(`dp`)和LAMMPS(`lmp`)，你可以输入`dp -h`和`lmp -h`来获取帮助信息。考虑到并行训练模型和运行LAMMPS的需求，`mpirun`也将同时被编译。
 
@@ -11,7 +11,7 @@ DeePMD-kit有很多简单的的安装方式，你可以按需选择。
 - 使用docker安装
 
 
-## 安装离线软件包
+## 利用离线软件包安装
 
 CPU和GPU版本的离线软件包都在可以[the Releases page](https://github.com/deepmodeling/deepmd-kit/releases)中找到。
 

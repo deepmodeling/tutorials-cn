@@ -278,7 +278,7 @@ DEEPMD INFO    # -----------------------------------------------
 
 ## 使用LAMMPS运行MD 
 
-现在让我们切换到 lammps 目录，检查使用 LAMMPS 运行 DeePMD 所需的输入文件。
+现在让我们切换到02.lmp目录。
 ```bash
 $ cd ../02.lmp
 ```
@@ -291,12 +291,12 @@ $ ln -s ../01.train/graph-compress.pb
 $ ls
 conf.lmp  graph-compress.pb  in.lammps
 ```
-其中 conf.lmp 给出了气相甲烷 MD 模拟的初始配置，文件 in.lammps 是 lammps 输入脚本。 可以检查 in.lammps 并发现它是一个用于 MD 模拟的相当标准的 LAMMPS 输入文件，只有两个不同行：
+其中 conf.lmp 给出了气相甲烷 MD 模拟的初始配置，文件 in.lammps 是LAMMPS输入脚本。 可以查看in.lammps，它与标准的用于MD模拟的LAMMPS输入脚本只有以下不同：
 ```bash
 pair_style  graph-compress.pb
 pair_coeff  * *
 ```
-其中调用pair style deepmd并提供模型文件graph-compress.pb，这意味着原子交互将由存储在文件graph-compress.pb中的DP模型计算。
+其中pair_style为deepmd graph-compress.pb，这意味着原子间相互作用将由名为graph-compress.pb的DP模型计算。
 
 可以以标准方式执行
 ```bash
