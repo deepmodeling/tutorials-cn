@@ -24,6 +24,7 @@
    :numbered:
    :caption: 案例
 
+   CaseStudies/Practical-Guidelines-for-DP/index
    CaseStudies/Gas-phase/index
 
 .. toctree::
