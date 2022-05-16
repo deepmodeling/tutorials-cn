@@ -27,4 +27,6 @@ Using DP-GEN
 
 .. toctree::
 	:maxdepth: 2
-	:caption: 实践教程
+	:caption: 上机教程
+	
+	learnDoc/DP-GEN_handson.md
