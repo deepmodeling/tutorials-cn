@@ -25,7 +25,7 @@ cd dpgen
 pip install --user
 ```
 
-这个命令会将 DP-GEN 安装到以下路近：`$Home/.local/bin/dpgen`。在使用前，您可能需要先激活变量路径 `Path`：
+这个命令会将 DP-GEN 安装到以下路径：`$Home/.local/bin/dpgen`。在使用前，您可能需要先激活变量路径 `Path`：
 
 ```sh
 export PATH=$HOME/.local/bin:$PATH

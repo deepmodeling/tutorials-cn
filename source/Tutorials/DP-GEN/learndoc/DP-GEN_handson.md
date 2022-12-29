@@ -2,7 +2,7 @@
 
 ## DP-GEN 工作流
 
-深度势能生成器 (Deep Potential GENerator, DP-GEN) 是一个**实现并发学习方案以生成可靠的深度势能 (DP) 模型**的软件包。通常，DP-GEN 工作流包含三个过程：初始化、运行和自动测试。
+深度势能生成器 (Deep Potential GENerator, DP-GEN) 是一个**实现同步学习方案以生成可靠的深度势能 (DP) 模型**的软件包。通常，DP-GEN 工作流包含三个过程：初始化、运行和自动测试。
 
 1. <span style="color:purple; font-weight:bold">初始化 *(init)* </span>：通过第一性原理计算生成初始训练数据集
 2. <span style="color:purple; font-weight:bold">运行 *(run)* </span>：DP-GEN 的主要过程，其中不断丰富训练集并自动提升 DP 模型的质量。
@@ -18,7 +18,7 @@
 
 初始数据集用于训练多个（默认为 4 个）初始 DP 模型，可以通过 <span style="color:purple; font-weight:bold">1.自定义方式</span> 或 <span style="color:purple; font-weight:bold">2.DP-GEN 提供的标准方式</span> 生成。
 
-#### **自定义方法**
+#### **自定义方式**
 
 直接执行从头算分子动力学 (AIMD) 模拟是生成初始数据的常见自定义方法。对于通过 AIMD 模拟生成初始数据的用户，我们给出以下建议：
 
@@ -28,7 +28,7 @@
 
 #### **DP-GEN的标准方式**
 
-对于块体材料，可以使用 DP-GEN 的`init_bulk`方法生成初始数据。在`init_bulk`方法中，给定的配置最初通过从头算 *ab initio* 弛豫，<span style="background-color:pink">随后缩放或扰动。接下来，使用这些缩放或扰动配置开始小规模 AIMD 仿真</span>，并将 AIMD 格式数据最终转换为 DeePMD-kit 所需的数据格式。基本上，`init_bulk` 可以分为四个部分：
+对于块体材料，可以使用 DP-GEN 的`init_bulk`方法生成初始数据。在`init_bulk`方法中，给定的配置最初通过从头算 *(ab initio)* 弛豫，随后缩放或扰动。接下来，使用这些缩放或扰动配置开始小规模 AIMD 模拟，并将 AIMD 格式数据最终转换为 DeePMD-kit 所需的数据格式。基本上，`init_bulk` 可以分为四个部分：
 
 1. 在文件 `00.place_ele`中弛豫
 2. 扰动和缩放文件夹`01.scale_pert`
@@ -105,7 +105,7 @@ init
 
 ### 运行 *Run*
 
-运行过程包含一系列连续迭代，按顺序进行，例如将系统加热到特定温度。每次迭代由三个步骤组成：<span style="color:purple; font-weight:bold">探索 *Exploration*</span>、<span style="color:purple; font-weight:bold">标记 *Labeling*</span>和<span style="color:purple; font-weight:bold">训练 *Training*</span>。
+运行过程包含一系列连续迭代，按顺序进行，例如将系统加热到特定温度。每次迭代由三个步骤组成：<span style="color:purple; font-weight:bold">探索 *(Exploration)*</span>、<span style="color:purple; font-weight:bold">标记 *(Labeling)*</span> 和 <span style="color:purple; font-weight:bold">训练 *(Training)*</span>。
 
 #### 输入文件
 
@@ -134,14 +134,14 @@ $ tree -L 1
 
 `param.json` 中的关键字可以分为 4 个部分：
 
-- <span style="color:purple; font-weight:bold">系统和数据 *System and Data*</span>：用于指定原子类型、初始数据等。
-- <span style="color:purple; font-weight:bold">训练 *Training*</span>：主要用于指定训练步骤中的任务;
-- <span style="color:purple; font-weight:bold">探索 *Exploration*</span>：主要用于在探索步骤中指定任务;
-- <span style="color:purple; font-weight:bold">标记 *Labeling*</span>：主要用于指定标记步骤中的任务。
+- <span style="color:purple; font-weight:bold">系统和数据 *(System and Data)*</span>：用于指定原子类型、初始数据等。
+- <span style="color:purple; font-weight:bold">训练 *(Training)*</span>：主要用于指定训练步骤中的任务;
+- <span style="color:purple; font-weight:bold">探索 *(Exploration)*</span>：主要用于在探索步骤中指定任务;
+- <span style="color:purple; font-weight:bold">标记 *(Labeling)*</span>：主要用于指定标记步骤中的任务。
 
 这里我们以气相甲烷分子为例，介绍`param.json`中的主要关键词。
 
-###### 系统和数据
+###### 系统和数据 *(System and Data)*
 
 系统和数据相关的关键字如下：
 
@@ -176,7 +176,7 @@ $ tree -L 1
 “init_data_prefix”和“init_data_sys”指定初始化数据的位置。“sys_configs_prefix”和“sys_configs”指定结构的位置。
 在这里，初始化数据在“...... /init/CH4.POSCAR.01x01x01/02.md/sys-0004-0001/deepmd”中提供。这些结构分为两组，在“....../init/CH4.POSCAR.01x01x01/01.scale_pert/sys-0004-0001/scale-1.000/00000*/POSCAR“和”....../init/CH4.POSCAR.01x01x01/01.scale_pert/sys-0004-0001/scale-1.000/00001*/POSCAR”。
 
-###### 训练
+###### 训练 *(Training)*
 
 与训练相关的关键字如下：
 
@@ -235,15 +235,15 @@ $ tree -L 1
 | 键词                       | 字段类型     | 描述                                  |
 |---------------------------|----------|----------------------------------------------|
 | "numb_models"             | int  | 在 00.train 中训练的模型数量。  |
-| "default_training_param"  | dict     | DeepMD-kit 的训练参数          |
+| "default_training_param"  | dict     | DeePMD-kit 的训练参数          |
 
 案例说明：
 
-训练相关键指定训练任务的详细信息。`numb_models`指定要训练的模型数量。`default_training_param`指定了 DeepMD-kit 的训练参数。在这里，将训练 4 个 DP 模型。
+训练相关键指定训练任务的详细信息。`numb_models`指定要训练的模型数量。`default_training_param`指定了 DeePMD-kit 的训练参数。在这里，将训练 4 个 DP 模型。
 
-DP-GEN 的训练部分由 DeepMD-kit 执行，因此此处的关键字与 DeepMD-kit 的关键字相同，此处不再赘述。有关这些关键字的详细说明，请访问[DeepMD-kit 文档](https://docs.deepmodeling.com/projects/deepmd/en/master/)。
+DP-GEN 的训练部分由 DeePMD-kit 执行，因此此处的关键字与 DeePMD-kit 的关键字相同，此处不再赘述。有关这些关键字的详细说明，请访问[DeePMD-kit 文档](https://docs.deepmodeling.com/projects/deepmd/en/master/)。
 
-###### 探索
+###### 探索 *(Exploration)*
 
 与探索相关的关键字如下：
 
@@ -284,7 +284,7 @@ DP-GEN 的训练部分由 DeepMD-kit 执行，因此此处的关键字与 DeepMD
 
 与探索相关的关键词指定探索任务中的细节。在 100 K 的温度和 1.0 bar 的压力下进行 MD 仿真，在 NVT 集合下积分时间为 2 fs。在“model_devi_jobs”中设置了两次迭代。MD 仿真在第一组和第二组的‘sys_configs'的 00 和 01 迭代中分别运行 300 和 3000 个时间步长。我们选择保存 MD 模拟中生成的所有结构，并将“trj_freq”设置为 10，因此在 00 和 01 次迭代中保存 30 和 300 个结构。如果保存结构的“max_devi_f”介于 0.05 和 0.15 之间，DP-GEN 会将该结构视为候选结构。我们选择清理MD中的 traj 文件夹，因为它们太大了。如果要保存 traj 文件夹的最近n次迭代，可以将“model_devi_clean_traj”设置为整数。
 
-###### 标注
+###### 标注 *(Labeling)*
 
 与标注相关的关键字如下：
 
@@ -308,7 +308,7 @@ DP-GEN 的训练部分由 DeepMD-kit 执行，因此此处的关键字与 DeepMD
 | "fp_task_min"     | Integer         | 每次迭代 在 02.fp 中要计算的最小结构。                                                           |
 | "fp_pp_path"      | String          | 用于 02.fp 的赝势文件路径。                                                          |
 | "fp_pp_files"     | List of string  | 用于 02.fp 的赝势文件。请注意，元素的顺序应与 type_map 中的顺序相对应。  |
-| "fp_incar"        | String          | VASP 输入文件。INCAR必须指定 KSSPACE 和 KGAMMA。                             |
+| "fp_incar"        | String          | VASP 输入文件。INCAR必须指定 KSPACING 和 KGAMMA。                             |
 
 案例说明：
 
@@ -316,13 +316,13 @@ DP-GEN 的训练部分由 DeepMD-kit 执行，因此此处的关键字与 DeepMD
 
 ##### machine.json
 
-DP-GEN运行过程中的每次迭代都由三个步骤组成：探索、标注和训练。因此，machine.json 由三个步骤组成：**train**、**model_devi** 和 **fp**。每个步骤都是字典列表。每个字典都可以被视为一个独立的计算环境。
+DP-GEN 运行过程中的每次迭代都由三个步骤组成：探索、标注和训练。因此，machine.json 由三个步骤组成：**train**、**model_devi** 和 **fp**。每个步骤都是字典列表。每个字典都可以被视为一个独立的计算环境。
 
 在本节中，我们将向您展示如何在本地工作站上执行`train`步骤，在本地 Slurm 集群上执行`model_devi`步骤，以及如何使用新的 DPDispatcher 在远程 PBS 集群上执行 `fp` 步骤（“api_version” >= 1.0）。 对于每个步骤，需要三种类型的关键词：
 
-- <span style="color:purple; font-weight:bold">命令 *Command*</span>：提供用于执行每个步骤的命令。
-- <span style="color:purple; font-weight:bold">机器 *Machine*</span>：指定机器环境（本地工作站、本地或远程集群或云服务器）。
-- <span style="color:purple; font-weight:bold">资源 *Resources*</span>：指定组、节点、CPU 和 GPU 的数量;启用虚拟环境。
+- <span style="color:purple; font-weight:bold">命令 *(Command)*</span>：提供用于执行每个步骤的命令。
+- <span style="color:purple; font-weight:bold">机器 *(Machine)*</span>：指定机器环境（本地工作站、本地或远程集群或云服务器）。
+- <span style="color:purple; font-weight:bold">资源 *(Resources)*</span>：指定组、节点、CPU 和 GPU 的数量;启用虚拟环境。
 
 ###### **在本地工作站执行`train`步骤**
 
@@ -368,9 +368,9 @@ DP-GEN运行过程中的每次迭代都由三个步骤组成：探索、标注�
 
 案例说明：
 
-DeeOMD-kit 代码用于 `train` ，调用的“命令”是“dp”。
+DeePMD-kit 代码用于 `train` ，调用的“命令”是“dp”。
 
-在机器参数中，“batch_type”指定作业调度系统的类型。如果没有作业调度系统，我们可以使用“Shell”来执行任务。“context_type”是指数据传输的方法，“local”是指通过本地文件存储系统复制和移动数据（例如CP，MV等）。在 DP-GEN 中，所有任务的路径都由软件自动定位和设置，因此“local_root”始终设置为“./".每个任务的输入文件将被发送到“remote_root”，任务将在那里执行，因此我们需要确保路径存在。
+在机器参数中，“batch_type”指定作业调度系统的类型。如果没有作业调度系统，我们可以使用“Shell”来执行任务。“context_type”是指数据传输的方法，“local”是指通过本地文件存储系统复制和移动数据（例如cp，mv等）。在 DP-GEN 中，所有任务的路径都由软件自动定位和设置，因此“local_root”始终设置为“./".每个任务的输入文件将被发送到“remote_root”，任务将在那里执行，因此我们需要确保路径存在。
 
 在 resources 参数中，“number_node”、“cpu_per_node”和“gpu_per_node”分别指定任务所需的节点数、CPU 数和 GPU 数。在这里要强调的是“group_size”，其指定了将打包到一个组中的任务数量。在训练任务中，我们需要训练 4 个模型。如果我们只有一个 GPU，我们可以将“group_size”设置为4。如果“group_size”设置为 1，则 4 个模型将同时在一个 GPU 上训练，因为没有作业调度系统。最后，可以通过“source_list”激活环境变量。在此示例中，“source /home/user1234/deepmd.env”在“dp”之前执行，以加载执行训练任务所需的环境变量。
 
@@ -412,7 +412,7 @@ DeeOMD-kit 代码用于 `train` ，调用的“命令”是“dp”。
 
 案例说明：
 
-LAMMPS 代码用于 `model_devi`，调用的“命令”是“lmp”。
+LAMMPS 代码用于 `model_devi`，调用的命令是“lmp”。
 
 在 machine 参数中，我们通过将“batch_type”更改为“Slurm”来指定作业调度系统的类型。
 
@@ -466,7 +466,7 @@ VASP 代码用于 `fp` 任务，mpi 用于并行计算，因此添加了“mpiru
 
 #### 开始运行过程
 
-准备好了param.json和machine.json，我们就可以通过以下方式轻松运行DP-GEN：
+准备好了 `param.json` 和 `machine.json`，我们就可以通过以下方式轻松运行 DP-GEN：
 
 ```sh
 dpgen run param.json machine.json
@@ -493,7 +493,7 @@ $ tree iter.000000/00.train -L 1
 └── graph.003.pb -> 003/frozen_model.pb
 ```
 
-- 文件夹 00x 包含 DeePMD 套件的输入和输出文件，其中训练了模型。
+- 文件夹 00x 包含 DeePMD-kit 的输入和输出文件，其中训练了模型。
 - graph.00x.pb ，链接到 00x/frozen.pb，是 DeePMD-kit 生成的模型。这些模型之间的唯一区别是神经网络初始化的随机种子。
 
 让我们随机选择其中之一查看，例如 000。
@@ -676,7 +676,7 @@ $ cat record.dpgen
 | 0                    | 7                           | run_fp           |
 | 0                    | 8                           | post_fp          |
 
-如果DP-GEN的进程由于某种原因停止，DP-GEN将通过record.dpgen自动恢复主进程。您也可以根据自己的目的手动更改它，例如删除上次迭代并从一个检查点恢复。
+如果 DP-GEN 的进程由于某种原因停止，DP-GEN 将通过 `record.dpgen` 自动恢复主进程。您也可以根据自己的目的手动更改它，例如删除上次迭代并从一个检查点恢复。
 在所有迭代之后，我们再来看看 `dpgen_example/run` 的文件结构：
 
 ```sh
@@ -740,7 +740,7 @@ nohup dpgen simplify simplify.json machine.json 1>log 2>err &
 2. `POTCAR`应由用户准备。
 3. 请检查路径和文件名，并确保它们正确无误。
 
-简化可用于迁移学习，请参阅 [案例研究：迁移学习]（../../../CaseStudies/Transfer-learning/index.html）
+简化可用于迁移学习，请参阅 [案例研究：迁移学习](../../../CaseStudies/Transfer-learning/index.html)
 
 ## 自动测试
 
@@ -791,7 +791,7 @@ vim .bashrc
 如果您对 Material Project 的 api-key 没有了解，请参考[这里](https://materialsproject.org/api#:~:text=API%20Key,-Your%20API%20Key&text=To%20make%20any%20request%20to,anyone%20you%20do%20not%20trust.)。
 
 - `machine.json`与 “init” 和 “run” 中使用的相同。有关它的更多信息，请查看[这里](https://bohrium-doc.dp.tech/#/docs/DP-GEN?id=步骤3：准备计算文件)。
-- relaxtion.json
+- `relaxtion.json`
 
 ```json
 {
@@ -827,8 +827,8 @@ dpgen autotest make relaxation.json
 nohup dpgen autotest run relaxation.json machine.json &
 ```
 
-运行此命令以执行结构弛豫
-。
+运行此命令以执行结构弛豫。
+
 #### 步骤 3 —— `post`
 
 ```bash
@@ -839,7 +839,7 @@ dpgen autotest post relaxation.json
 
 #### 步骤 1 —— `make`
 
-用于属性计算的参数位于 `property.json` 中。
+用于性质计算的参数位于 `property.json` 中。
 
 ```json
 {
